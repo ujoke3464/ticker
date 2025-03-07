@@ -24,21 +24,24 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Android SDK Command-Line Tools
+      - name: Install Android SDK Tools
         run: |
           # Set ANDROID_HOME variable
           export ANDROID_HOME=$HOME/Android/Sdk
-          mkdir -p $ANDROID_HOME/cmdline-tools
+          mkdir -p $ANDROID_HOME
 
-          # Download and install the command-line tools
-          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O /tmp/cmdline-tools.zip
-          unzip /tmp/cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
-          rm /tmp/cmdline-tools.zip
+          # Download the full SDK Tools package
+          wget https://dl.google.com/android/repository/commandlinetools-linux-12266719_latest.zip -O /tmp/commandlinetools.zip
+          unzip /tmp/commandlinetools.zip -d $ANDROID_HOME
+          rm /tmp/commandlinetools.zip
 
-          # Set up the sdkmanager binary path
-          export PATH=$ANDROID_HOME/cmdline-tools/bin:$PATH
+          # Install SDK components
+          export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 
-          # Install necessary SDK components
+          # Verify sdkmanager existence
+          sdkmanager --version
+
+          # Accept licenses and install necessary components
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "tools" "build-tools;30.0.3" "android-30"
 
