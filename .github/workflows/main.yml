@@ -27,7 +27,7 @@ jobs:
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
         with:
-          cmdline-tools-version: 6.0  # Specify the version of cmdline-tools (replace with the desired version)
+          cmdline-tools-version: 7.0  # Use a specific, known good version of the command-line tools
           accept-android-sdk-licenses: true  # Accept licenses automatically
 
       - name: Grant execute permission to Gradle
