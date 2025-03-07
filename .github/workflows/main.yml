@@ -28,16 +28,19 @@ jobs:
         run: |
           # Set ANDROID_HOME variable
           export ANDROID_HOME=$HOME/Android/Sdk
-          mkdir -p $ANDROID_HOME/cmdline-tools/latest
+          mkdir -p $ANDROID_HOME/cmdline-tools
 
           # Download and install the command-line tools
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O /tmp/cmdline-tools.zip
-          unzip /tmp/cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools/latest
+          unzip /tmp/cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools
           rm /tmp/cmdline-tools.zip
 
+          # Set up the sdkmanager binary path
+          export PATH=$ANDROID_HOME/cmdline-tools/bin:$PATH
+
           # Install necessary SDK components
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "tools" "build-tools;30.0.3" "android-30"
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "tools" "build-tools;30.0.3" "android-30"
 
       - name: Grant execute permission to Gradle
         run: chmod +x gradlew
